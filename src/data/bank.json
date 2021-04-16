@@ -8,14 +8,14 @@
         },
         {
             "id": 1,
-            "cash": 700,
+            "cash": -100,
             "credit": 100,
             "isActive": true
         },
         {
             "id": 2,
             "cash": 1500,
-            "credit": 0,
+            "credit": 1000,
             "isActive": true
         }
     ]
