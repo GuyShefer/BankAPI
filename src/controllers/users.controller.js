@@ -77,13 +77,58 @@ const withdrawCash = (req, res) => {
     }
 }
 
+const transferrMoney = (req, res) => {
+    const { receivingUserId, sendingUserId, amount } = req.body;
+    if (receivingUserId < 0 || sendingUserId < 0 || amount < 1) {
+        return res.status(406).send('The request must include a valid IDs and a positive cash amount.');
+    }
+    else if (!isUserExistById(receivingUserId) || !isUserExistById(sendingUserId)) {
+        return res.status(406).send('One or more of the users is not exists.');
+    }
+    else if (!validCashWithdraw(sendingUserId, amount)) {
+        return res.status(406).send('The amount of cash is not possible, the sending user exceeds his amount limit.');
+    }
+    else {
+        bankData.users.forEach(user => {
+            if (user.id == sendingUserId) {
+                user.cash -= amount;
+            }
+            else if (user.id == receivingUserId) {
+                user.cash += amount;
+            }
+        })
+        fs.writeFileSync('./src/data/bank.json', JSON.stringify(bankData));
+        res.status(200).send('The amount of money was successfully transferred between the users.');
+    }
+}
+
+const getUserById = (req, res) => {
+    const id = req.params.id;
+    if (id < 0) {
+        return res.status(406).send('The request must include a valid ID.');
+    }
+    else if (!isUserExistById(id)) {
+        return res.status(406).send('The User is not exists.');
+    }
+    else {
+        const user = bankData.users.find(user => user.id == id);
+        res.status(200).json(user);
+    }
+}
+
+const getAllUsers = (req,res) => {
+    res.status(200).json(bankData.users);
+}
+
+// Validations Functions //
+
 const isUserExistById = (id) => {
     return bankData.users.some(user => user.id == id);
 }
 
 const validCashWithdraw = (id, amountOfCash) => {
     const user = bankData.users.find(user => user.id == id);
-    if (user.cash + user.credit < amountOfCash){
+    if (user.cash + user.credit < amountOfCash) {
         return false;
     }
     return true;
@@ -94,4 +139,7 @@ module.exports = {
     depositeCash,
     updateCredit,
     withdrawCash,
+    transferrMoney,
+    getUserById,
+    getAllUsers
 }

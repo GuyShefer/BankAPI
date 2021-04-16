@@ -2,19 +2,19 @@
     "users": [
         {
             "id": 0,
-            "cash": 0,
+            "cash": 400,
             "credit": 0,
             "isActive": true
         },
         {
             "id": 1,
-            "cash": -100,
+            "cash": 100,
             "credit": 100,
             "isActive": true
         },
         {
             "id": 2,
-            "cash": 1500,
+            "cash": 900,
             "credit": 1000,
             "isActive": true
         }
