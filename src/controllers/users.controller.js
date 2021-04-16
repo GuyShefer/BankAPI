@@ -116,8 +116,20 @@ const getUserById = (req, res) => {
     }
 }
 
-const getAllUsers = (req,res) => {
+const getAllUsers = (req, res) => {
     res.status(200).json(bankData.users);
+}
+
+const getAllUsersSortedByMoney = (req, res) => {
+    const users = bankData.users;
+    users.sort((a, b) => a.cash - b.cash);
+    res.status(200).json(users);
+}
+
+const getActiveUsersWithSpecifiedAmount = (req, res) => {
+    const amount = req.params.amount;
+    const users = bankData.users.filter(user => user.isActive === true && user.cash >= amount);
+    res.status(200).json(users);
 }
 
 // Validations Functions //
@@ -141,5 +153,7 @@ module.exports = {
     withdrawCash,
     transferrMoney,
     getUserById,
-    getAllUsers
+    getAllUsers,
+    getAllUsersSortedByMoney,
+    getActiveUsersWithSpecifiedAmount,
 }

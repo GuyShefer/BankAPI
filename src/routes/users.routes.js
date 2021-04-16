@@ -22,12 +22,20 @@ router.put('/transferring', (req, res) => {
     usersController.transferrMoney(req, res);
 })
 
-router.get('/:id', (req, res) => {
+router.get('/getUser/:id', (req, res) => {
     usersController.getUserById(req, res);
 })
 
 router.get('/', (req, res) => {
     usersController.getAllUsers(req, res);
+})
+
+router.get('/sortedByMoney', (req, res) => {
+    usersController.getAllUsersSortedByMoney(req, res);
+})
+
+router.get('/getActiveUsersWithSpecifiedAmount/:amount', (req, res) => {
+    usersController.getActiveUsersWithSpecifiedAmount(req, res);
 })
 
 module.exports = router;
