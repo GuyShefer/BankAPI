@@ -1,1 +1,1 @@
-{"users":[{"id":1,"cash":100,"credit":100,"isActive":true},{"id":0,"cash":800,"credit":0,"isActive":true},{"id":3,"cash":400,"credit":300,"isActive":true},{"id":2,"cash":900,"credit":1000,"isActive":true}]}
+{"users":[{"id":1,"cash":100,"credit":100,"isActive":true},{"id":3,"cash":400,"credit":300,"isActive":true},{"id":2,"cash":900,"credit":1000,"isActive":true},{"id":0,"cash":2800,"credit":0,"isActive":true}]}

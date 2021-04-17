@@ -46,15 +46,36 @@ describe('POST', () => {
     expect(res.text).toEqual('User ID already exists.');
     done();
   });
-  
+
 });
 
 describe('PUT', () => {
 
-  it('deposite cash', async (done) => {
+  it('update deposite cash', async (done) => {
     const obj = { id: 0, cash: 400 };
     const res = await server.put('/api/bank/deposite').send(obj).expect(200);
     expect(res.text).toEqual('User funds have been successfully deposited.');
+    done();
+  });
+
+  it('update user credit', async (done) => {
+    const obj = { id: 0, credit: -300 };
+    const res = await server.put('/api/bank/updateCredit').send(obj).expect(406);
+    expect(res.text).toEqual('The request must include a valid ID and a positive credit number.');
+    done();
+  });
+
+  it('update withdraw cash', async (done) => {
+    const obj = { id: 0, cash: 5000 };
+    const res = await server.put('/api/bank/withdrawCash').send(obj).expect(406);
+    expect(res.text).toEqual('The amount of cash is not possible, you exceed the amount limit.');
+    done();
+  });
+
+  it('transferring cash between users', async (done) => {
+    const obj = { receivingUserId: 73, sendingUserId: 1, amount: 300 };
+    const res = await server.put('/api/bank/transferring').send(obj).expect(406);
+    expect(res.text).toEqual('One or more of the users is not exists.');
     done();
   });
 
