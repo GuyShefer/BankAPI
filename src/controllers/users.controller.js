@@ -25,6 +25,9 @@ const depositeCash = (req, res) => {
     else if (!isUserExistById(id)) {
         return res.status(406).send('The User is not exists.');
     }
+    else if(!isUserActive(id)) {
+        return res.status(406).send('The User is not active.');
+    }
     else {
         bankData.users.forEach(user => {
             if (user.id == id) {
@@ -44,6 +47,9 @@ const updateCredit = (req, res) => {
     else if (!isUserExistById(id)) {
         return res.status(406).send('The User is not exists.');
     }
+    else if(!isUserActive(id)) {
+        return res.status(406).send('The User is not active.');
+    }
     else {
         bankData.users.forEach(user => {
             if (user.id == id) {
@@ -62,6 +68,9 @@ const withdrawCash = (req, res) => {
     }
     else if (!isUserExistById(id)) {
         return res.status(406).send('The User is not exists.');
+    }
+    else if(!isUserActive(id)) {
+        return res.status(406).send('The User is not active.');
     }
     else if (!validCashWithdraw(id, cash)) {
         return res.status(406).send('The amount of cash is not possible, you exceed the amount limit.');
@@ -84,6 +93,9 @@ const transferrMoney = (req, res) => {
     }
     else if (!isUserExistById(receivingUserId) || !isUserExistById(sendingUserId)) {
         return res.status(406).send('One or more of the users is not exists.');
+    }
+    else if(!isUserActive(receivingUserId) || !isUserActive(sendingUserId)) {
+        return res.status(406).send('One or more of the users are not active.');
     }
     else if (!validCashWithdraw(sendingUserId, amount)) {
         return res.status(406).send('The amount of cash is not possible, the sending user exceeds his amount limit.');
@@ -144,6 +156,11 @@ const validCashWithdraw = (id, amountOfCash) => {
         return false;
     }
     return true;
+}
+
+const isUserActive = (id) => {
+    const user = bankData.users.find(user => user.id == id);
+    return user.isActive ? true : false;
 }
 
 module.exports = {
